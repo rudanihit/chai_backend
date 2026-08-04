@@ -1,0 +1,16 @@
+{
+  "name": "youtube_backend",
+  "version": "1.0.0",
+  "description": "Chai aur Code",
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "license": "ISC",
+  "author": "HIT RUDANI",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
