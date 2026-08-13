@@ -162,8 +162,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshToken: undefined,
+      $unset: {
+        refreshToken: 1,
       },
     },
     {
@@ -217,7 +217,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .cookie("accessToken", accessToken, option)
-      .cookie("refreshToken", refreshToken, options)
+      .cookie("refreshToken", refreshToken, option)
       .json(
         new ApiResponse(
           200,
@@ -428,7 +428,7 @@ const getUserChannelProfile = asyncHandler(async(req,res) => {
   )
 })
 
-const getwatchHistory = asyncHandler(async(req,res) => {
+const getWatchHistory = asyncHandler(async(req,res) => {
   const user = await User.aggregate([
     {
       $match: {
@@ -493,5 +493,5 @@ export {
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelProfile,
-  getwatchHistory
+  getWatchHistory
 };
