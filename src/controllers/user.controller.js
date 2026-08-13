@@ -4,6 +4,7 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -184,7 +185,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
-  const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken;
+  const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
 
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorized request");
@@ -217,11 +218,12 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .cookie("accessToken", accessToken, option)
-      .cookie("refreshToken", refreshToken, option)
+      .cookie("refreshToken", newRefreshToken, option)
       .json(
         new ApiResponse(
           200,
-          { accessToken, refreshToken: newRefreshToken },
+          { accessToken, 
+            refreshToken: newRefreshToken },
           "Access token refreshed"
         )
       );
@@ -438,14 +440,14 @@ const getWatchHistory = asyncHandler(async(req,res) => {
     {
       $lookup: {
         from: "videos",
-        localfield: "watchHistory",
+        localField: "watchHistory",
         foreignField: "_id",
         as: "watchHistory",
         pipeline: [
           {
             $lookup: {
               from: "users",
-              localfield: "owner",
+              localField: "owner",
               foreignField: "_id",
               as: "owner",
               pipeline: [
