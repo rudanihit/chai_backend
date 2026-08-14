@@ -17,7 +17,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
 
     return { accessToken, refreshToken };
   } catch (error) {
-    console.log("TOKEN ERROR:", error);
+    // console.log("TOKEN ERROR:", error);
     throw new ApiError(
       500,
       "Something went wrong while generating refresh and access token"
@@ -53,7 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new ApiError(409, "User with email or username");
   }
-  console.log("REQ FILES:", req.files);
+  // console.log("REQ FILES:", req.files);
 
   const avatarLocalPath = req.files?.avatar?.[0]?.path; // console.log("FILES:", req.files);
   // const coverImageLocalPath = req.files?.coverImage[0]?.path;
@@ -109,7 +109,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // send cookie
 
   const { email, username, password } = req.body;
-  console.log(email);
+  // console.log(email);
 
   if (!username && !email) {
     throw new ApiError(400, "username or password is required");
